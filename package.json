@@ -4,8 +4,9 @@
   "description": "Parse Server Continuous Benchmark",
   "main": "benchmark.js",
   "scripts": {
-    "test": "TESTING=1 node benchmark.js -c 1 -p 1 -d 2",
+    "benchmark": "TESTING=1 node benchmark.js -c 1 -p 1 -d 2",
     "start": "TESTING=1 node benchmark.js",
+    "test": "jasmine",
     "lint": "eslint --cache ./",
     "lint:fix": "eslint --fix ./"
   },
@@ -19,7 +20,8 @@
     "parse-server": "3.7.2"
   },
   "devDependencies": {
-    "eslint": "6.1.0"
+    "eslint": "6.1.0",
+    "jasmine": "3.4.0"
   },
   "engines": {
     "node": "8"

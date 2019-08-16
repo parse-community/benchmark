@@ -7,8 +7,8 @@ const bench = require('./lib/bench');
 const path = require('path');
 const fs = require('fs');
 
-const benchmarkPath = path.join(__dirname, 'benchmarks');
-const benchmarks = fs.readdirSync(benchmarkPath).filter(file => file.includes('.js'));
+const serverPath = path.join(__dirname, 'servers');
+const servers = fs.readdirSync(serverPath).filter(file => file.includes('.js'));
 
 program
   .option('-c, --connections [NUM]', 'The number of concurrent connections to use. default: 10.')
@@ -25,15 +25,15 @@ if (!program.connections && !program.pipelining && !program.duration) {
     pipelining: program.pipelining || 1,
     duration: program.duration || 10,
   };
-  bench(opts, benchmarks);
+  bench(opts, servers);
 }
 
 function select(callback) {
   inquirer.prompt([{
     type: 'checkbox',
-    message: 'Select servers',
+    message: 'Select server(s)',
     name: 'list',
-    choices: benchmarks,
+    choices: servers,
     validate: (answer) => {
       if (answer.length < 1) {
         return 'You must choose at least one server.';
@@ -82,7 +82,7 @@ function showPrompt() {
     if (!opts.all) {
       select(list => bench(opts, list));
     } else {
-      bench(opts, benchmarks);
+      bench(opts, servers);
     }
   });
 }
