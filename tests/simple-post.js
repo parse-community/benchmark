@@ -1,7 +1,9 @@
+'use strict';
+
 module.exports = exports = {
-  requests: [{
+  getRequests: () => [{
     path: '/classes/TestObject',
     method: 'POST',
-    body: '{"testValue": 1}'
+    body: JSON.stringify({ testValue: 1 }),
   }]
 };

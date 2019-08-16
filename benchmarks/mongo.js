@@ -11,6 +11,7 @@ const parseServer = new ParseServer({
   appId: PARSE_CONFIG.APP_ID,
   serverURL: PARSE_CONFIG.SERVER_URL,
   masterKey: PARSE_CONFIG.MASTER_KEY,
+  javascriptKey: PARSE_CONFIG.JAVASCRIPT_KEY,
   verbose: PARSE_CONFIG.VERBOSE,
 });
 

@@ -4,39 +4,36 @@
 const program = require('commander');
 const inquirer = require('inquirer');
 const bench = require('./lib/bench');
-const PARSE_CONFIG = require('./config');
 const path = require('path');
 const fs = require('fs');
 
 const benchmarkPath = path.join(__dirname, 'benchmarks');
-const BENCHMARKS = fs.readdirSync(benchmarkPath).filter(file => file.includes('.js'));
+const benchmarks = fs.readdirSync(benchmarkPath).filter(file => file.includes('.js'));
 
 program
   .option('-c, --connections [NUM]', 'The number of concurrent connections to use. default: 10.')
   .option('-p, --pipelining  [NUM]', 'The number of pipelined requests to use. default: 1.')
-  .option('-d, --duration    [SEC]', 'The number of seconds to run the autocannnon. default: 10.')
-  .option('-u, --serverURL   [STR]', `Server URL for Parse Server. default: ${PARSE_CONFIG.SERVER_URL}.`);
+  .option('-d, --duration    [SEC]', 'The number of seconds to run the autocannnon. default: 10.');
 
 program.parse(process.argv);
 
-if (!program.connections && !program.pipelining && !program.duration && !program.serverURL) {
+if (!program.connections && !program.pipelining && !program.duration) {
   showPrompt();
 } else {
   const opts = {
     connections: program.connections || 10,
     pipelining: program.pipelining || 1,
     duration: program.duration || 10,
-    serverURL: program.serverURL || PARSE_CONFIG.SERVER_URL,
   };
-  bench(opts, BENCHMARKS);
+  bench(opts, benchmarks);
 }
 
-const select = callback => {
+function select(callback) {
   inquirer.prompt([{
     type: 'checkbox',
     message: 'Select servers',
     name: 'list',
-    choices: BENCHMARKS,
+    choices: benchmarks,
     validate: (answer) => {
       if (answer.length < 1) {
         return 'You must choose at least one server.';
@@ -46,7 +43,7 @@ const select = callback => {
   }]).then(function (answers) {
     callback(answers.list);
   });
-};
+}
 
 function showPrompt() {
   inquirer.prompt([{
@@ -81,16 +78,11 @@ function showPrompt() {
       return !Number.isNaN(parseFloat(value)) || 'Please enter a number';
     },
     filter: Number
-  }, {
-    type: 'input',
-    name: 'serverURL',
-    message: 'What is Server URL?',
-    default: PARSE_CONFIG.SERVER_URL,
   }]).then((opts) => {
     if (!opts.all) {
       select(list => bench(opts, list));
     } else {
-      bench(opts, BENCHMARKS);
+      bench(opts, benchmarks);
     }
   });
 }

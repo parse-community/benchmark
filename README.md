@@ -34,7 +34,20 @@ $ npm start [-- <args>] or npm test
 -c, --connections The number of concurrent connections to use. default: 10.
 -p, --pipelining  The number of pipelined requests to use. default: 1.
 -d, --duration    The number of seconds to run the autocannnon. default: 10.
--u, --serverURL   Server URL for Parse Server. default: localhost:1337
+```
+
+### Environment Variables
+
+```
+APP_NAME: 'Parse Server Benchmark',
+APP_ID: 'app-id',
+JAVASCRIPT_KEY: 'javascript-key',
+MASTER_KEY: 'master-key',
+PORT: 1337,
+SERVER_URL: 'http://localhost:1337`,
+POSTGRES_URI: 'postgres://localhost:5432/parse_benchmark',
+MONGODB_URI: 'mongodb://localhost:27017/parse_benchmark',
+VERBOSE: false,
 ```
 
 ## Debugging
