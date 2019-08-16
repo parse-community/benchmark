@@ -45,6 +45,4 @@ You can generate detailed server logs by setting `VERBOSE=1`.
 
 ## TODO
 
-https://github.com/parse-community/benchmark/projects
-
-This project was built based on [fastily](https://github.com/fastify/benchmarks/)
+You can track the progress of this project [here](https://github.com/parse-community/benchmark/projects)
