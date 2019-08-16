@@ -4,8 +4,8 @@
   "description": "Parse Server Continuous Benchmark",
   "main": "benchmark.js",
   "scripts": {
-    "test": "node benchmark.js -c 10 -p 1 -d 2",
-    "start": "node benchmark.js",
+    "test": "TESTING=1 node benchmark.js -c 1 -p 1 -d 2",
+    "start": "TESTING=1 node benchmark.js",
     "lint": "eslint --cache ./",
     "lint:fix": "eslint --fix ./"
   },

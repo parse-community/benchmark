@@ -8,5 +8,5 @@ module.exports = exports = {
   SERVER_URL: process.env.SERVER_URL || `http://localhost:${PORT}`,
   POSTGRES_URI: process.env.POSTGRES_URI || 'postgres://localhost:5432/parse_benchmark',
   MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/parse_benchmark',
-  VERBOSE: process.env.VERBOSE || true,
+  VERBOSE: process.env.VERBOSE || false,
 };

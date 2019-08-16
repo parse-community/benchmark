@@ -5,25 +5,28 @@ const program = require('commander');
 const inquirer = require('inquirer');
 const bench = require('./lib/bench');
 const PARSE_CONFIG = require('./config');
+const path = require('path');
+const fs = require('fs');
 
-const BENCHMARKS = ['pg', 'mongo'];
+const benchmarkPath = path.join(__dirname, 'benchmarks'); 
+const BENCHMARKS = fs.readdirSync(benchmarkPath).filter(file => file.includes('.js'));
 
 program
   .option('-c, --connections [NUM]', 'The number of concurrent connections to use. default: 10.')
   .option('-p, --pipelining  [NUM]', 'The number of pipelined requests to use. default: 1.')
   .option('-d, --duration    [SEC]', 'The number of seconds to run the autocannnon. default: 10.')
-  .option('-u, --url         [STR]', `Server URL for Parse Server. default: ${PARSE_CONFIG.SERVER_URL}.`);
+  .option('-u, --serverURL   [STR]', `Server URL for Parse Server. default: ${PARSE_CONFIG.SERVER_URL}.`);
 
 program.parse(process.argv);
 
-if (!program.connections && !program.pipelining && !program.duration && !program.url) {
+if (!program.connections && !program.pipelining && !program.duration && !program.serverURL) {
   showPrompt();
 } else {
   const opts = {
     connections: program.connections || 10,
     pipelining: program.pipelining || 1,
     duration: program.duration || 10,
-    url: program.url || PARSE_CONFIG.SERVER_URL,
+    serverURL: program.serverURL || PARSE_CONFIG.SERVER_URL,
   };
   bench(opts, BENCHMARKS);
 }
@@ -80,7 +83,7 @@ function showPrompt() {
     filter: Number
   }, {
     type: 'input',
-    name: 'url',
+    name: 'serverURL',
     message: 'What is Server URL?',
     default: PARSE_CONFIG.SERVER_URL,
   }]).then((opts) => {
