@@ -34,6 +34,7 @@ before_script:
 - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_benchmark
 script:
 - npm run lint
+- npm run test
 - $BENCHMARK
 jobs:
   include:
