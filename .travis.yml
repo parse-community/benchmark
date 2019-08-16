@@ -1,11 +1,56 @@
 language: node_js
-
-node_js:
-  - "8"
-  - "10"
-  - "11"
-
+dist: trusty
+node_js: 
+- '10.14'
+addons:
+  postgresql: '9.5'
+  apt:
+    packages:
+    - postgresql-9.5-postgis-2.3
 notifications:
   email:
     on_success: never
     on_failure: always
+branches:
+  only:
+  - master
+  - "/^[0-9]+.[0-9]+.[0-9]+(-.*)?$/"
+  - "/^greenkeeper/.*$/"
+cache:
+  directories:
+  - "$HOME/.npm"
+  - "$HOME/.mongodb/versions"
+stage: benchmark
+env:
+  matrix:
+  - BENCHMARK='node benchmark.js -c 10'
+  - BENCHMARK='node benchmark.js -c 100'
+  - BENCHMARK='node benchmark.js -c 1000'
+before_script:
+- npm install -g mongodb-runner
+- MONGODB_VERSION=4.0.4 MONGODB_TOPOLOGY=replicaset MONGODB_STORAGE_ENGINE=wiredTiger mongodb-runner start
+- psql -c 'create database parse_benchmark;' -U postgres
+- psql -c 'CREATE EXTENSION postgis;' -U postgres -d parse_benchmark
+- psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_benchmark
+script:
+- npm run lint
+- $BENCHMARK
+jobs:
+  include:
+  - stage: release
+    node_js: '10'
+    env:
+    before_script: skip
+    after_script: skip
+    script: skip
+    deploy:
+    - provider: npm
+      api_key:
+        secure: Yrng6jsnMAtzrrln9DwRuY4xpcxl/WYS/1A5fckyQF6DsLmNlvqVtu3MWF+zdJgANF63G3jIee11tNBpYRecHl8FjPGwO0kc1vEgvIRVnveyR0bwIIDH6s/mR9dg4rZikflwG4XExsLyaQd7ko8aTIOIayfxJiv/u0yqwuBuBW2bFrL/41b1cKGK5+Iq2a+PdFENUPenKXISkACGaMnQF4Y/KVF98UwCiGLf957yFWc2sD6TFbjNDbAENSccvg1J3fBb+djbtzKzldl29ntp2mKVGSVASiKCRa6hSfgQulHiidFqFIKgpYJ1uATRr3UFr/NRVt1WbrgLnzY74OCX7y02c/xiYQMMEPRl/P8hHJu+KjQ3PBWsBvmsRN0QMUJv3PEjUPE3AY8sw49NoxiJZzJr7574vUBuM/dk0byYI6K/gwmUrPIhQjljzZqinS8JJJ4FjGjCdzXRhT5Q+PZvt5bF1rMOZXayNJZa+cICtmiJoU3vO2Yf6TXC3wY1veKvmcs24nws5lp4keJePTKAi1Ig7VoSxwAlgs3EGANIh7oBKx9zWnXQYMdmxbYsvLXAWcnnM+PcSCvooLmXWso3BQBeRuUUSS2oLaBpsFMsiniLNbA1cW4fwMkgUGz4oEDRi8wTD89E/1J2oNxzqtWRPawcVKpMpnBbDJHrWJPEHMw=
+      email:
+        secure: lomzDl71N995SzRczm7VE9OZE+PzMo4X8t3zU97agu/FMH5Qcj8BLwE+uVDTnA9Vblyj62ZsFKsNjP2Qp53Vcd+jHM4EJNWNRZYpEMIRO3LngX43r83qoFEHUvPu9s1oaa04a6FojcsJx0wl6B6Ke2AX74MXnJDLb9iZBy1mkpLUMVccVhSfhdoIzhkq3dhUw+6d8C024tNMHcgDW3VnRAsWFtiL7dCMpjLOdI+UxlkeGkQkxXXuRsZ0ZdjoSoM8NSkiYMc8x6EnekyRDoHTujX3OFxuU6+GAjrUmVzNmJWrBIqHVb0DXBQxjEaG3d/cNu5UsQyZYq5sxRRH0BaLs7F4oIQg95etasEtTtUkmsZ3pshVlsweiLU366UdbfuAf5hrJjqLrU12BKZyLjaAwyeKz031r8dA4sJtGIp5uVdXobQQTH6r958A88byJ20uaYSqhqjhZo3hkWXIQP0WQN2Ej/g57HbVNLB/nPKkMILfk/tpp7nBDLT0QrjbZxeo1dwCHqsBEV6z7ZyWyFf4xwpDsir4txL4t8ElzeGdlACjCqAJvIh5w9YzfrwijtoVMvvP6pWvn/iI640d4rsdIDe8egxgqZ1R/TMd/tdHYX+eI+ZfFmCVGj36/uXwdG7KIoIZVjRQ2tvWr9ZuydEPWPSRVGT4ycFeu6wbm3elM3I=
+      skip_cleanup: true
+      on:
+        tags: true
+        all_branches: true
+        repo: parse-community/benchmark
