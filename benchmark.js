@@ -8,7 +8,7 @@ const PARSE_CONFIG = require('./config');
 const path = require('path');
 const fs = require('fs');
 
-const benchmarkPath = path.join(__dirname, 'benchmarks'); 
+const benchmarkPath = path.join(__dirname, 'benchmarks');
 const BENCHMARKS = fs.readdirSync(benchmarkPath).filter(file => file.includes('.js'));
 
 program

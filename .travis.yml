@@ -20,23 +20,23 @@ cache:
   directories:
   - "$HOME/.npm"
   - "$HOME/.mongodb/versions"
+stage: benchmark
+env:
+  matrix:
+  - BENCHMARK='node benchmark.js -c 10 -p 1 -d 10'
+  - BENCHMARK='node benchmark.js -c 100 -p 10 -d 10'
+  - BENCHMARK='node benchmark.js -c 1000 -p 100 -d 10'
+before_script:
+- npm install -g mongodb-runner
+- MONGODB_VERSION=4.0.4 MONGODB_TOPOLOGY=replicaset MONGODB_STORAGE_ENGINE=wiredTiger mongodb-runner start
+- psql -c 'create database parse_server_postgres_adapter_test_database;' -U postgres
+- psql -c 'CREATE EXTENSION postgis;' -U postgres -d parse_server_postgres_adapter_test_database
+- psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_server_postgres_adapter_test_database
+script:
+- npm run lint
+- $BENCHMARK
 jobs:
   include:
-  - stage: benchmark
-    env:
-      matrix:
-      - BENCHMARK='node benchmark.js -c 10 -p 1 -d 10'
-      - BENCHMARK='node benchmark.js -c 100 -p 10 -d 10'
-      - BENCHMARK='node benchmark.js -c 1000 -p 100 -d 10'
-    before_script:
-    - npm install -g mongodb-runner
-    - MONGODB_VERSION=4.0.4 MONGODB_TOPOLOGY=replicaset MONGODB_STORAGE_ENGINE=wiredTiger mongodb-runner start
-    - psql -c 'create database parse_server_postgres_adapter_test_database;' -U postgres
-    - psql -c 'CREATE EXTENSION postgis;' -U postgres -d parse_server_postgres_adapter_test_database
-    - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_server_postgres_adapter_test_database
-    script:
-    - npm run lint
-    - $BENCHMARK
   - stage: release
     node_js: '10'
     env:
