@@ -1,0 +1,27 @@
+{
+  "name": "parse-benchmark",
+  "version": "1.0.0",
+  "description": "Parse Server Continuous Benchmark",
+  "main": "benchmark.js",
+  "scripts": {
+    "test": "node benchmark.js -c 10 -p 1 -d 2",
+    "start": "node benchmark.js",
+    "lint": "eslint --cache ./",
+    "lint:fix": "eslint --fix ./"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "autocannon": "4.0.0",
+    "cli-table": "0.3.1",
+    "commander": "3.0.0",
+    "ora": "3.4.0",
+    "parse-server": "3.7.2"
+  },
+  "devDependencies": {
+    "eslint": "6.1.0"
+  },
+  "engines": {
+    "node": "8"
+  }
+}
