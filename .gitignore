@@ -49,3 +49,4 @@ fabric.properties
 /.idea
 data.json
 test_logs
+result.json
