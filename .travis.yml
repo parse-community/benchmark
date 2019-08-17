@@ -33,18 +33,10 @@ jobs:
     script:
     - npm run lint
     - npm run test
-    - npm run release_benchmarks
-    deploy:
-    - provider: pages
-      skip_cleanup: true
-      github_token: $GITHUB_TOKEN
-      local_dir: docs/
-      keep_history: true
-      on:
-        branch: master
+    - node benchmark.js -c 10
   - stage: release
     node_js: '10'
-    env: 
+    env:
     before_script: skip
     after_script: skip
     script: skip

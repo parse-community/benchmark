@@ -4,6 +4,8 @@
   "description": "Parse Server Continuous Benchmark",
   "main": "benchmark.js",
   "scripts": {
+    "bot": "probot run ./bot.js",
+    "bot:dev": "APP_ID=38757 LOG_LEVEL=debug WEBHOOK_PROXY_URL=https://smee.io/TTTwn6zi8W8li19 WEBHOOK_SECRET=development nodemon",
     "benchmark": "TESTING=1 node benchmark.js -c 1 -p 1 -d 2",
     "start": "TESTING=1 node benchmark.js",
     "test": "jasmine",
@@ -18,11 +20,26 @@
     "cli-table": "0.3.1",
     "commander": "3.0.0",
     "ora": "3.4.0",
-    "parse-server": "3.7.2"
+    "parse-server": "git://github.com/parse-community/parse-server.git#3ab9dcdfd0b05c7ff892f08e52ff5f29ccc8bc80",
+    "probot": "9.3.1"
   },
   "devDependencies": {
     "eslint": "6.1.0",
-    "jasmine": "3.4.0"
+    "jasmine": "3.4.0",
+    "nodemon": "1.19.1",
+    "smee-client": "1.1.0"
+  },
+  "nodemonConfig": {
+    "exec": "npm run bot",
+    "ignore": [
+      "docs/*",
+      "result.json",
+      "*logs/*"
+    ],
+    "watch": [
+      ".env",
+      "."
+    ]
   },
   "engines": {
     "node": "8"
