@@ -56,10 +56,8 @@ function histogram(field, data) {
       datasets,
     },
     options: {
-      responsive: true,
       title:{
-        display:true,
-        text:'Chart.js Line Chart'
+        display:false,
       },
       tooltips: {
         mode: 'index',

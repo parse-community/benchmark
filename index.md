@@ -1,5 +1,5 @@
 ---
-title: Docs | Parse
+title: Benchmarks | Parse
 permalink: index.html
 layout: docs
 
@@ -16,7 +16,7 @@ layout: docs
       <a href="#average-latency">Average Latency</a>,
       <a href="#maximum-latency">Maximum Latency</a>,
       <a href="#average-thoughput-mb">Average Throughput</a>, and 
-      <a href="#maximum-thoughput-mb">Maximum Throughput</a>
+      <a href="#maximum-thoughput-mb">Maximum Throughput</a> tests.
     </p>
   </div>
   <div class="posts">
