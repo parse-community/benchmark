@@ -1,6 +1,6 @@
 language: node_js
 dist: trusty
-node_js: 
+node_js:
 - '10.14'
 addons:
   postgresql: '9.5'
@@ -20,39 +20,35 @@ cache:
   directories:
   - "$HOME/.npm"
   - "$HOME/.mongodb/versions"
-stage: benchmark
-env:
-  matrix:
-  - BENCHMARK='node benchmark.js -c 10'
-  - BENCHMARK='node benchmark.js -c 100'
-  - BENCHMARK='node benchmark.js -c 1000'
-before_script:
-- npm install -g mongodb-runner
-- MONGODB_VERSION=4.0.4 MONGODB_TOPOLOGY=replicaset MONGODB_STORAGE_ENGINE=wiredTiger mongodb-runner start
-- psql -c 'create database parse_benchmark;' -U postgres
-- psql -c 'CREATE EXTENSION postgis;' -U postgres -d parse_benchmark
-- psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_benchmark
-script:
-- npm run lint
-- npm run test
-- $BENCHMARK
 jobs:
   include:
-  - stage: release
-    node_js: '10'
-    env:
-    before_script: skip
-    after_script: skip
-    script: 
-    - "./release_benchmarks.sh"
+  - stage: benchmark
+    before_script:
+    - npm install -g mongodb-runner
+    - MONGODB_VERSION=4.0.4 MONGODB_TOPOLOGY=replicaset MONGODB_STORAGE_ENGINE=wiredTiger
+      mongodb-runner start
+    - psql -c 'create database parse_benchmark;' -U postgres
+    - psql -c 'CREATE EXTENSION postgis;' -U postgres -d parse_benchmark
+    - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_benchmark
+    script:
+    - npm run lint
+    - npm run test
+    - npm run release_benchmarks
     deploy:
     - provider: pages
       skip_cleanup: true
       github_token:
-        secure: YU2lUqmW036AHBRu7xO/AwEeQ900Q/5O6FL96ZqWEfD7Gadaq4iapkNvhPR0HcZYRHqQV2/2LCHVnhd0dbj0ShkmVIHdQE7O+MF+j0v0GIVc8FPTPe1/d2Hy4apSWNe6FeCrYKVeliAu+ZqvNuFLhVmYvIeJdlJrMGOb6P76UZXRDv2srXhq4uBcCVUJuTajyyd5ttJfcNapymTP+xzEDYc7Hr4LJaubmv/wVD/xwPBbvfYFuBqysUpkPKi/ODlQbB0ybYh2fFnX71WUyFUGbtB5xI9ma951Zp4v3t73c31uUl27dJaHzO62EtVTdcUKAa804EtAtsvpeJWMVWKUgigm9UZcXdEwKa79fl5nLaq34lrSktAYOkexwPqYj+vbS6sn52JrluSxLE+4cEke7tYbnJ9X12SAQXKgcXY3n30+6gKf9RVqYdlNsYpEAqKVIDb6SlEkk86dP+uIg/XXb5RKEwxbDXnb6xdl9JRc+GTbeeY3/vg2h9QTdmFVblPtBhHrNenQYP/BS0n+EfUnAIBKqRmQgyhao3SiY5FMACM8higI2Lvvhpq46pDhXqsexYCz5F008C6YXGDh5gC93rJFec0pjh55DNdQu6uw3YMQ5jtf3QUXoPAoMFud3cTulMlnjC1WZG8QbqER8dzUZ4TcaQUdzribJI/mRriheBg=
+        - secure: tSaiGdEEvaHr0nYuDOnadEuHinAobcCLCtu01KfS1/tByy96ko34sxbrgABDG+Mxi9haYYS1Le0WhBBU8ouWpIY3MJkT9kf446brOI++R9/45MjTj7M01DN/SRKX39TG1dxQhPlIugrxXZGbL+MDYOdHdc6IZq8w7G4PjjKlQPquYBUQQEu9alN3TqGELJQgZs5C0iBxOI2azbjyfc6QD6JExscCX9G32jvVDBZgkybeYWXyl9/FUsqlIDf1Hxl70PHEYF6gHAqYViCg8TYlHONV6JeG0IF/fpFFUTP9kJJQOgL+5BkChb3oycTI0pETAb+trYtazCbGlY10U/f0Bc/TMbAAAkYSH4iZ1K6RhR9lL5r/Vb+NXsUCV7ajccFf9/hPf6QNgPwIYeNNhaKq7200oqChb0FdMIeuZFB/g3OVonB1Dn51R5bHdByTNZ3VCRrksTemR8CYCHlWMS7PSX1McWujkyAwIqn5gDW40SdI9p9k11WCdIbKeoiJvR4ctxZ06jb2FaSkyUvqb8BK1SKNfc+Zl9rMmiebI4/MUFJyViSrs90mdkw1HAVjCck38tNZQX4fWiUGF5ghxV6J40MSn6K7U43xRQ54azRRJkxpYbD5lJZ3n7dY67Fso5yD2+8n4l3U0aj8T/ApzbOeG5i/6IghE1Y4kC95vtAObqg=
       local_dir: docs/
       on:
         all_branches: true
+  - stage: release
+    node_js: '10'
+    env: 
+    before_script: skip
+    after_script: skip
+    script: skip
+    deploy:
     - provider: npm
       api_key:
         secure: Yrng6jsnMAtzrrln9DwRuY4xpcxl/WYS/1A5fckyQF6DsLmNlvqVtu3MWF+zdJgANF63G3jIee11tNBpYRecHl8FjPGwO0kc1vEgvIRVnveyR0bwIIDH6s/mR9dg4rZikflwG4XExsLyaQd7ko8aTIOIayfxJiv/u0yqwuBuBW2bFrL/41b1cKGK5+Iq2a+PdFENUPenKXISkACGaMnQF4Y/KVF98UwCiGLf957yFWc2sD6TFbjNDbAENSccvg1J3fBb+djbtzKzldl29ntp2mKVGSVASiKCRa6hSfgQulHiidFqFIKgpYJ1uATRr3UFr/NRVt1WbrgLnzY74OCX7y02c/xiYQMMEPRl/P8hHJu+KjQ3PBWsBvmsRN0QMUJv3PEjUPE3AY8sw49NoxiJZzJr7574vUBuM/dk0byYI6K/gwmUrPIhQjljzZqinS8JJJ4FjGjCdzXRhT5Q+PZvt5bF1rMOZXayNJZa+cICtmiJoU3vO2Yf6TXC3wY1veKvmcs24nws5lp4keJePTKAi1Ig7VoSxwAlgs3EGANIh7oBKx9zWnXQYMdmxbYsvLXAWcnnM+PcSCvooLmXWso3BQBeRuUUSS2oLaBpsFMsiniLNbA1cW4fwMkgUGz4oEDRi8wTD89E/1J2oNxzqtWRPawcVKpMpnBbDJHrWJPEHMw=

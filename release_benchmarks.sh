@@ -16,7 +16,8 @@ cd ..
 OUTPUT_FILE="./docs/data.json"
 
 # Create data.json file if not exist
-if [[ ! -e $OUTPUT_FILE ]]; then
+if [ ! -e $OUTPUT_FILE ];
+then
   touch $OUTPUT_FILE
 fi
 
