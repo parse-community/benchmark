@@ -37,11 +37,11 @@ jobs:
     deploy:
     - provider: pages
       skip_cleanup: true
-      github_token:
-      - secure: "X77zxgzFPQKikZJJCO4zrT3ZSj79K9SIBhrpziPiC9zLcZ5qK1Hyd/kVjG0RZSHmFDQBflPmqCbVuT7eW8pilaGEfAfdBxPwhp0rMXD1oCRLiYnfDBCmmmWr4lFa/xYpjtzx1uuL+9n5tKJJPwWsmqqyNZa5ca53Y2MdZD2VJLwzNFYaI1eAPB9pXMtne4B1T3Tc1tEjJx3mro1fWOZ3jcIWiXB9qtSF5exDALF++09BA5Pm24qacC6IiN/kbrf1AEXkZc8szkMzVY2nWO4Cdfh+G7UQtUDE1BC10jbolSxjdBxLvHuBrN9GyDAOgTAadxFbbFvvWViHzm8w42nWz23LN8BdZO6Zc6unwgub3oZ+KUcAL4uVon5GwY+5IOUSZiat6Jpjo+Lxy9Pss61PZyp3Dx5GUdwV4PKqiVllA5Qogc/PwTuwm4bvX/PQ/1en+SPuZ1fZk7ea7JpjZF/CQBiZnzezG6zfVR6kxgsGSE6wwHrld20ahT9Sw2Hn7Ud/VkJHiSTDLDeMJrH02LEuw5v1U3ibFUO2cyzadkeXRDF5FmHqS1hbRZNqdi1JldhUEEE9vycf5nSjoR0onFnMr5fPHtzxx43sC6S0O6dNH0wi6U3yjcwH4DzJWh8uCYzOLW8yDSoHG9Knl+PUwb5CckUhckrwo+lvZHHK6TDes4s="
+      github_token: $GITHUB_TOKEN
       local_dir: docs/
+      keep_history: true
       on:
-        all_branches: true
+        branch: master
   - stage: release
     node_js: '10'
     env: 
