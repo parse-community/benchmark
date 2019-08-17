@@ -8,7 +8,8 @@
     "start": "TESTING=1 node benchmark.js",
     "test": "jasmine",
     "lint": "eslint --cache ./",
-    "lint:fix": "eslint --fix ./"
+    "lint:fix": "eslint --fix ./",
+    "release_benchmarks": "./release_benchmarks.sh"
   },
   "author": "",
   "license": "ISC",

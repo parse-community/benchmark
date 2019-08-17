@@ -1,6 +1,6 @@
 language: node_js
 dist: trusty
-node_js: 
+node_js:
 - '10.14'
 addons:
   postgresql: '9.5'
@@ -20,27 +20,31 @@ cache:
   directories:
   - "$HOME/.npm"
   - "$HOME/.mongodb/versions"
-stage: benchmark
-env:
-  matrix:
-  - BENCHMARK='node benchmark.js -c 10'
-  - BENCHMARK='node benchmark.js -c 100'
-  - BENCHMARK='node benchmark.js -c 1000'
-before_script:
-- npm install -g mongodb-runner
-- MONGODB_VERSION=4.0.4 MONGODB_TOPOLOGY=replicaset MONGODB_STORAGE_ENGINE=wiredTiger mongodb-runner start
-- psql -c 'create database parse_benchmark;' -U postgres
-- psql -c 'CREATE EXTENSION postgis;' -U postgres -d parse_benchmark
-- psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_benchmark
-script:
-- npm run lint
-- npm run test
-- $BENCHMARK
 jobs:
   include:
+  - stage: benchmark
+    before_script:
+    - npm install -g mongodb-runner
+    - MONGODB_VERSION=4.0.4 MONGODB_TOPOLOGY=replicaset MONGODB_STORAGE_ENGINE=wiredTiger
+      mongodb-runner start
+    - psql -c 'create database parse_benchmark;' -U postgres
+    - psql -c 'CREATE EXTENSION postgis;' -U postgres -d parse_benchmark
+    - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_benchmark
+    script:
+    - npm run lint
+    - npm run test
+    - npm run release_benchmarks
+    deploy:
+    - provider: pages
+      skip_cleanup: true
+      github_token:
+        - secure: tSaiGdEEvaHr0nYuDOnadEuHinAobcCLCtu01KfS1/tByy96ko34sxbrgABDG+Mxi9haYYS1Le0WhBBU8ouWpIY3MJkT9kf446brOI++R9/45MjTj7M01DN/SRKX39TG1dxQhPlIugrxXZGbL+MDYOdHdc6IZq8w7G4PjjKlQPquYBUQQEu9alN3TqGELJQgZs5C0iBxOI2azbjyfc6QD6JExscCX9G32jvVDBZgkybeYWXyl9/FUsqlIDf1Hxl70PHEYF6gHAqYViCg8TYlHONV6JeG0IF/fpFFUTP9kJJQOgL+5BkChb3oycTI0pETAb+trYtazCbGlY10U/f0Bc/TMbAAAkYSH4iZ1K6RhR9lL5r/Vb+NXsUCV7ajccFf9/hPf6QNgPwIYeNNhaKq7200oqChb0FdMIeuZFB/g3OVonB1Dn51R5bHdByTNZ3VCRrksTemR8CYCHlWMS7PSX1McWujkyAwIqn5gDW40SdI9p9k11WCdIbKeoiJvR4ctxZ06jb2FaSkyUvqb8BK1SKNfc+Zl9rMmiebI4/MUFJyViSrs90mdkw1HAVjCck38tNZQX4fWiUGF5ghxV6J40MSn6K7U43xRQ54azRRJkxpYbD5lJZ3n7dY67Fso5yD2+8n4l3U0aj8T/ApzbOeG5i/6IghE1Y4kC95vtAObqg=
+      local_dir: docs/
+      on:
+        all_branches: true
   - stage: release
     node_js: '10'
-    env:
+    env: 
     before_script: skip
     after_script: skip
     script: skip
