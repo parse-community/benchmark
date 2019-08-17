@@ -1,0 +1,39 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+name: Parse Benchmark
+title: Parse Benchmark
+email: community@parseplatform.org
+description: The open source docs for the Parse platform SDKs & other guides.
+url: "http://benchmark.parseplatform.org"
+repository: parse-community/benchmark
+twitter_username:  parseplatform
+github_username:   parseplatform
+stackoverflow_tag: parse-platform
+serverfault_tag:   parse
+support_url: https://community.parseplatform.org
+apis:
+  osx: https://parseplatform.org/Parse-SDK-iOS-OSX/api/
+  android: https://parseplatform.org/Parse-SDK-Android/api/
+  js: https://parseplatform.org/Parse-SDK-JS/api/master/
+  php: https://parseplatform.org/parse-php-sdk/namespaces/Parse.html
+  dotnet: https://parseplatform.org/Parse-SDK-dotNET/api/
+  parse-server: https://parseplatform.org/parse-server/api/
+
+# Build settings
+markdown: kramdown
+exclude: [ Gemfile, Gemfile.lock, README.md, config.codekit, webpack.config.js, node_modules, npm-debug.log, package.json ]
+sass:
+  sass_dir: css
+
+# Gems
+plugins:
+  - jekyll-redirect-from
+
+whitelist:
+  - jekyll-redirect-from
