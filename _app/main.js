@@ -11,7 +11,7 @@ const COLORS = [
 ];
 
 $(function() {
-  $.get('../data.txt', function(txt) {
+  $.get('../assets/data.txt', function(txt) {
     const data = txt.split('\n').filter(line => line !== '').map(line => JSON.parse(line));
     console.log(data);
     histogram('req_per_second', data);
