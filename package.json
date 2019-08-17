@@ -1,7 +1,7 @@
 {
-  "name": "parsedocs",
+  "name": "parse-benchmark-page",
   "version": "0.0.1",
-  "description": "A static site that serves Parse's documentation using Jekyll on GitHub Pages. Work in progress.",
+  "description": "A static site that serves Parse Benchmarks Web Page using Jekyll on GitHub Pages. Work in progress.",
   "main": "_app/main.js",
   "scripts": {
     "start": "npm run dev",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ParsePlatform/docs.git"
+    "url": "git+https://github.com/parse-community/benchmark.git"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/ParsePlatform/docs/issues"
+    "url": "https://github.com/parse-community/benchmark/issues"
   },
-  "homepage": "https://github.com/ParsePlatform/docs#readme",
+  "homepage": "https://github.com/parse-community/benchmark#readme",
   "devDependencies": {
     "babel-core": "6.26.3",
     "babel-loader": "7.1.5",

@@ -1,4 +1,4 @@
-# Parse Docs
+# Parse Benchmarks Page
 
 [![Join The Conversation](https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg)](https://community.parseplatform.org/c/parse-server)
 [![Backers on Open Collective](https://opencollective.com/parse-server/backers/badge.svg)][open-collective-link]
@@ -7,7 +7,7 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/ParsePlatform.svg?label=Follow%20us%20on%20Twitter&style=social)](https://twitter.com/intent/follow?screen_name=ParsePlatform)
 
 
-These are the markdown sources for all of the [Parse SDK guides](https://parse-community.github.io/#sdks). The content for the guides is stored in this repo, and we use Jekyll to generate a static site that is hosted on GitHub Pages.
+These are the markdown sources for all of the [Benchmarks](https://github.com/parse-community/benchmark). The content for the page is stored in this repo, and we use Jekyll to generate a static site that is hosted on GitHub Pages.
 
 ## Repository Structure
 
