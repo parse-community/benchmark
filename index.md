@@ -1,7 +1,7 @@
 ---
 title: Benchmarks | Parse
 permalink: index.html
-layout: docs
+layout: benchmark
 
 ---
 
