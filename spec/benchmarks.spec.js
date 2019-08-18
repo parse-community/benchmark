@@ -2,7 +2,7 @@ const simplePost = require('../benchmarks/simple-post');
 const simpleGet = require('../benchmarks/simple-get');
 const Parse = require('../src/parse');
 
-describe('requests', () => {
+describe('benchmarks', () => {
   it('simple-post', () => {
     const requests = simplePost.getRequests();
     expect(requests.length).toBe(1);
