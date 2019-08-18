@@ -25,6 +25,7 @@
     "bot:dev": "APP_ID=38757 LOG_LEVEL=debug WEBHOOK_PROXY_URL=https://smee.io/TTTwn6zi8W8li19 WEBHOOK_SECRET=development nodemon",
     "start": "node ./src/index.js",
     "test": "TESTING=1 jasmine",
+    "coverage": "TESTING=1 nyc jasmine",
     "lint": "rm -rf docs && eslint --cache ./",
     "lint:fix": "eslint --fix ./",
     "benchmarks": "./resources/run_benchmarks.sh"
@@ -36,13 +37,15 @@
     "commander": "3.0.0",
     "inquirer": "6.5.1",
     "ora": "3.4.0",
-    "parse-server": "3.7.2",
+    "parse-server": "github:parse-community/parse-server#master",
     "probot": "9.3.1"
   },
   "devDependencies": {
+    "codecov": "3.5.0",
     "eslint": "6.1.0",
     "jasmine": "3.4.0",
     "nodemon": "1.19.1",
+    "nyc": "14.1.1",
     "smee-client": "1.1.0"
   },
   "nodemonConfig": {
