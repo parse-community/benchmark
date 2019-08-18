@@ -43,7 +43,7 @@ function histogram(field, data) {
       label: key,
       data: value,
       borderColor: COLORS[i],
-      borderWidth: 1,
+      borderWidth: 3,
       fill: -1,
     };
     datasets.push(dataset);
