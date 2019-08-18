@@ -10,7 +10,7 @@ name: Parse Benchmark
 title: Parse Benchmark
 email: community@parseplatform.org
 description: Parse Server Continuous Benchmark Page
-url: "https://parseplatform.org/benchmark"
+url: "http://benchmark.parseplatform.org/"
 repository: parse-community/benchmark
 twitter_username:  parseplatform
 github_username:   parseplatform
