@@ -1,0 +1,63 @@
+{
+  "name": "parse-benchmark",
+  "version": "1.0.0",
+  "description": "Parse Server Continuous Benchmark",
+  "homepage": "http://benchmark.parseplatform.org/",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/parse-community/benchmark"
+  },
+  "keywords": [
+    "parse",
+    "benchmark"
+  ],
+  "files": [
+    "src/",
+    "benchmark/",
+    "server/",
+    "LICENSE",
+    "PATENTS",
+    "README.md"
+  ],
+  "scripts": {
+    "bot": "probot run ./bot.js",
+    "bot:dev": "APP_ID=38757 LOG_LEVEL=debug WEBHOOK_PROXY_URL=https://smee.io/TTTwn6zi8W8li19 WEBHOOK_SECRET=development nodemon",
+    "start": "node ./src/index.js",
+    "test": "TESTING=1 jasmine",
+    "lint": "rm -rf docs && eslint --cache ./",
+    "lint:fix": "eslint --fix ./",
+    "benchmarks": "./resources/run_benchmarks.sh"
+  },
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "autocannon": "4.0.0",
+    "cli-table": "0.3.1",
+    "commander": "3.0.0",
+    "inquirer": "6.5.1",
+    "ora": "3.4.0",
+    "parse-server": "3.7.2",
+    "probot": "9.3.1"
+  },
+  "devDependencies": {
+    "eslint": "6.1.0",
+    "jasmine": "3.4.0",
+    "nodemon": "1.19.1",
+    "smee-client": "1.1.0"
+  },
+  "nodemonConfig": {
+    "exec": "npm run bot",
+    "ignore": [
+      "docs/*",
+      "result.json",
+      "*logs/*"
+    ],
+    "watch": [
+      ".env",
+      "."
+    ]
+  },
+  "engines": {
+    "node": "8"
+  }
+}
