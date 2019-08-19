@@ -8,11 +8,11 @@ const ora = require('ora');
 const path = require('path');
 const { fork } = require('child_process');
 const { run } = require('./autocannon');
-const monitor = require('./monitor.js');
+const pidusage = require('pidusage');
 
 const doBench = (opts, serverName, benchmarks) => {
   const spinner = ora(`Started ${serverName}`).start();
-  const serverProcess = fork(path.join(__dirname, '..', 'servers', serverName));
+  const serverProcess = fork(path.join(__dirname, '..', 'servers', serverName), [], { stdio: 'pipe' });
   return new Promise((resolve) => {
     const results = [];
 
@@ -22,7 +22,7 @@ const doBench = (opts, serverName, benchmarks) => {
           let testName;
           try {
             const benchmark = require(path.join(__dirname, '..', 'benchmarks', benchmarks[i]));
-            testName = `${serverName} | ${benchmarks[i]}`;
+            testName = `${serverName} ${benchmarks[i]}`;
             const requests = await benchmark.getRequests();
 
             spinner.color = 'yellow';
@@ -31,13 +31,13 @@ const doBench = (opts, serverName, benchmarks) => {
             if (process.env.CLEAR) {
               await TestUtils.destroyAllDataPermanently();
             }
-            const m = new monitor();
             const result = await run(opts, requests);
-            const meter = m.stop(testName);
+            const usage = await pidusage(serverProcess.pid);
+
+            results.push({ [testName] : Object.assign({}, result, usage) });
 
             spinner.text = `Results saved for ${testName}`;
             spinner.succeed();
-            results.push({ [testName] : Object.assign({}, result, meter) });
           } catch (error) {
             spinner.text = `Failed saved for ${testName}`;
             spinner.fail();
@@ -47,7 +47,7 @@ const doBench = (opts, serverName, benchmarks) => {
         serverProcess.kill('SIGINT');
       }
     });
-    serverProcess.on('close', () => {
+    serverProcess.on('close', async () => {
       resolve(results);
     });
   });
@@ -55,7 +55,7 @@ const doBench = (opts, serverName, benchmarks) => {
 
 const cliTable = (data) => {
   const table = new Table({
-    head: ['', 'Requests/s', 'Latency', 'Throughput/Mb', 'Ram', 'Heap Total', 'Heap Used', 'Cpu %'],
+    head: ['', 'Requests/s', 'Latency', 'Throughput/Mb', 'Ram', 'Cpu %'],
   });
   const rows = data.map((result) => {
     const key = Object.keys(result)[0];
@@ -64,9 +64,7 @@ const cliTable = (data) => {
       (result[key].requests.average).toFixed(1),
       (result[key].latency.average).toFixed(2),
       (result[key].throughput.average / 1024 / 1024).toFixed(2),
-      bytesToSize(result[key].ram),
-      bytesToSize(result[key].heapTotal),
-      bytesToSize(result[key].heapUsed),
+      bytesToSize(result[key].memory),
       result[key].cpu,
     ];
   });
@@ -81,10 +79,8 @@ function saveToFile(data) {
     avg_latency: processData(data, 'latency', 'average'),
     max_throughput: processData(data, 'throughput', 'max'),
     avg_throughput: processData(data, 'throughput', 'average'),
-    ram: processData(data, 'ram'),
+    ram: processData(data, 'memory'),
     cpu: processData(data, 'cpu'),
-    heapTotal: processData(data, 'heapTotal'),
-    heapUsed: processData(data, 'throughput'),
     sha1: process.env.SHA1 || '',
     created_at: new Date(),
   };
@@ -106,7 +102,6 @@ function processData(data, field, value) {
 
 function bytesToSize(bytes) {
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes == 0) return '0 Byte';
   const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 }

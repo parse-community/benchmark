@@ -1,3 +1,4 @@
+/* Not Used */
 function monitor () {
   this.t0 = process.hrtime();
   this.m0 = process.memoryUsage();

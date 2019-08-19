@@ -31,7 +31,7 @@ describe('monitor', () => {
 
   it('debug', () => {
     process.env.DEBUG = true;
-    jest.spyOn(console, 'log');
+    jest.spyOn(console, 'log').mockImplementation(() => {});
 
     const m = new monitor();
     m.stop('test');

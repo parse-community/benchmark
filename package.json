@@ -37,6 +37,7 @@
     "inquirer": "6.5.1",
     "ora": "3.4.0",
     "parse-server": "github:parse-community/parse-server#master",
+    "pidusage": "2.0.17",
     "probot": "9.3.1"
   },
   "devDependencies": {
