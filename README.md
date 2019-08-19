@@ -29,7 +29,8 @@
 
 Parse Benchmark is a highly configurable tool for testing Parse Server [instances][server] against different [load tests][benchmark].
 
-This tool also features a trigger bot that queues merged pull requests on [Parse Server][parse-server] repo and runs benchmarks. The results can be view on the benchmark [website][website].
+This tool also features a trigger bot that queues merged pull requests on [Parse Server][parse-server] repo and runs benchmarks. 
+The results can be view on the benchmark [website][website].
 
 ### Setup Mongodb
 
@@ -68,7 +69,7 @@ $ npm start -- run <args>  # runs many to many benchmark tests
 $ npm start -- test <server> <benchmark> <args>  # runs one to one benchmark test
 ```
 
-You can pass in the file name of the [<server>][server] and [<benchmark>][benchmark] to test against.
+You can pass in the file name of the [server][server] and [benchmark][benchmark] to test against.
 
 #### Arguments
 
