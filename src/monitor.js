@@ -13,7 +13,7 @@ function monitor () {
     const heapUsed = m1['heapUsed'] - this.m0['heapUsed'];
     const cpu = (diffCPU.user + diffCPU.system) / timeMS;
 
-    if(process.env.DEBUG) {
+    if (process.env.DEBUG) {
       console.log('Test       : ', name);
       console.log('RAM        : ', ram);
       console.log('HeapTotal  : ', heapTotal);
