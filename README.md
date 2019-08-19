@@ -25,15 +25,25 @@
 </p>
 <br>
 
-## Setup Mongodb
+## Getting Started
+
+Parse Benchmark is a highly configurable tool for testing Parse Server [instances][server] against different [load tests][benchmark].
+
+This tool also features a trigger bot that queues merged pull requests on [Parse Server][parse-server] repo and runs benchmarks. The results can be view on the benchmark [website][website].
+
+### Setup Mongodb
+
 ```
 $ npm install -g mongodb-runner
 $ mongodb-runner start
 ```
-***Note:*** *If installation with* `-g` *fails due to permission problems* (`npm ERR! code 'EACCES'`), *please refer to [this link](https://docs.npmjs.com/getting-started/fixing-npm-permissions).*
+***Note:*** *If installation with* `-g` *fails due to permission problems* (`npm ERR! code 'EACCES'`), *please refer to [this link][npm-permissions].*
 
 
-## Setup Postgres
+### Setup PostgreSQL
+
+Install [PostgreSQL][postgres].
+If you have Mac the [PostgreSQL App][postgres-app] is recommended.
 ```
 $ psql -c 'create database parse_benchmark;' -U postgres
 $ psql -c 'CREATE EXTENSION postgis;' -U postgres -d parse_benchmark
@@ -43,16 +53,24 @@ $ psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_benchmark
 ## Running Benchmark
 
 ### Locally
+
 ```
-$ git clone https://github.com/parse-community/benchmark
+$ git clone https://github.com/parse-community/benchmark.git
 $ cd benchmark
 $ npm install
-$ npm start # shows prompt
+$ npm start
+```
+
+### Usage
+
+```
 $ npm start -- run <args>  # runs many to many benchmark tests
 $ npm start -- test <server> <benchmark> <args>  # runs one to one benchmark test
 ```
 
-### Arguments
+You can pass in the file name of the [<server>][server] and [<benchmark>][benchmark] to test against.
+
+#### Arguments
 
 ```
 -c, --connections The number of concurrent connections to use. default: 10.
@@ -68,6 +86,7 @@ PARSE_APP_NAME: 'Parse Server Benchmark',
 PARSE_APP_ID: 'app-id',
 PARSE_JAVASCRIPT_KEY: 'javascript-key',
 PARSE_MASTER_KEY: 'master-key',
+PARSE_MOUNT_PATH: '/',
 PARSE_PORT: 1337,
 SERVER_URL: 'http://localhost:1337`,
 DATABASE_URL: 'postgres://localhost:5432/parse_benchmark',
@@ -82,6 +101,15 @@ You can track the progress of your benchmark setting the `DEBUG=1` environment v
 
 You can generate detailed server logs by setting `VERBOSE=1`.
 
-## TODO
+## Roadmap
 
-You can track the progress of this project [here](https://github.com/parse-community/benchmark/projects)
+You can track the progress of this project [here][project].
+
+[benchmark]: https://github.com/parse-community/benchmark/tree/master/benchmarks
+[project]: https://github.com/parse-community/benchmark/projects
+[server]: https://github.com/parse-community/benchmark/tree/master/servers
+[parse-server]: https://github.com/parse-community/parse-server
+[website]: http://benchmark.parseplatform.org
+[npm-permissions]: https://docs.npmjs.com/getting-started/fixing-npm-permissions
+[postgres]: https://www.postgresql.org/download/
+[postgres-app]: https://postgresapp.com
