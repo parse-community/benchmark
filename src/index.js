@@ -66,7 +66,7 @@ function showPrompt() {
     type: 'confirm',
     name: 'all',
     message: 'Do you want to run all benchmark tests?',
-    default: false
+    default: true
   }, {
     type: 'input',
     name: 'connections',

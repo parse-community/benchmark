@@ -1,10 +1,10 @@
-const simplePost = require('../benchmarks/simple-post');
-const simpleGet = require('../benchmarks/simple-get');
+const testPost = require('../benchmarks/post');
+const testGet = require('../benchmarks/get');
 const Parse = require('../src/parse');
 
 describe('benchmarks', () => {
-  it('simple-post', () => {
-    const requests = simplePost.getRequests();
+  it('simple-post', async () => {
+    const requests = await testPost.getRequests();
     expect(requests.length).toBe(1);
     expect(requests[0].method).toBe('POST');
     expect(requests[0].path).toBe('/classes/TestObject');
@@ -20,7 +20,7 @@ describe('benchmarks', () => {
       },
       ajax() {}
     });
-    const requests = await simpleGet.getRequests();
+    const requests = await testGet.getRequests();
     expect(requests.length).toBe(1);
     expect(requests[0].method).toBe('GET');
     expect(requests[0].path).toBe('/classes/TestObject/uid1');

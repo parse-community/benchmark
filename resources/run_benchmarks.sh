@@ -25,7 +25,9 @@ echo "SHA1 HASH: $SHA1"
 
 # Run benchmark test to output result.json
 npm install --no-save "git://github.com/parse-community/parse-server.git#$SHA1"
-npm start -c 1 -p 1 -d 2
+
+# 100 connections, 1 thread, 20 seconds, 40k requests
+npm start -- run -c 100 -p 1 -d 20
 
 RESULT=`cat result.json`
 
