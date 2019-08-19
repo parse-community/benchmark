@@ -12,7 +12,8 @@
   "globals": { 
     "describe": true,
     "expect": true,
-    "it": true
+    "it": true,
+    "jest": true
   },
   "rules": {
     "indent": ["error", 2],
