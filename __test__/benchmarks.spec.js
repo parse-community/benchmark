@@ -23,7 +23,6 @@ describe('benchmarks', () => {
     const requests = await simpleGet.getRequests();
     expect(requests.length).toBe(1);
     expect(requests[0].method).toBe('GET');
-    expect(requests[0].path).toBe('/classes/TestObject');
-    expect(requests[0].body).toBe('{"objectId":"uid1"}');
+    expect(requests[0].path).toBe('/classes/TestObject/uid1');
   });
 });

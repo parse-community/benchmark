@@ -5,6 +5,7 @@ module.exports = exports = {
   APP_ID: process.env.PARSE_APP_ID || 'app-id',
   JAVASCRIPT_KEY: process.env.PARSE_JAVASCRIPT_KEY || 'javascript-key',
   MASTER_KEY: process.env.PARSE_MASTER_KEY || 'master-key',
+  REST_KEY: process.env.PARSE_REST_KEY || 'rest-key',
   PORT: PORT,
   SERVER_URL: process.env.PARSE_SERVER_URL || `http://localhost:${PORT}`,
   DATABASE_URL: process.env.DATABASE_URL || 'postgres://localhost:5432/parse_benchmark',

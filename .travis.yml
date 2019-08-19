@@ -32,8 +32,7 @@ jobs:
     - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d parse_benchmark
     script:
     - npm run lint
-    - npm run coverage
-    - npm start -c 10
+    - npm start -- run -c 10
     - if [ ! -e "result.json" ]; then exit 1; fi
     after_script:
     - bash <(curl -s https://codecov.io/bash)

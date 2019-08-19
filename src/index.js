@@ -11,22 +11,22 @@ const servers = getJSFiles('servers');
 const benchmarks = getJSFiles('benchmarks');
 
 program
+  .command('test <server> [test]')
   .option('-c, --connections [NUM]', 'The number of concurrent connections to use.', 10)
   .option('-p, --pipelining  [NUM]', 'The number of pipelined requests to use.', 1)
-  .option('-d, --duration    [SEC]', 'The number of seconds to run the autocannnon.', 10)
-  .action(function () {
-    handleAction(program);
+  .option('-d, --duration    [NUM]', 'The number of seconds to run the autocannnon.', 10)
+  .action(function (server, test, options) {
+    handleAction(options, server, test);
   });
 
 program
-  .command('test [server] [test]')
+  .command('run')
   .option('-c, --connections [NUM]', 'The number of concurrent connections to use.', 10)
   .option('-p, --pipelining  [NUM]', 'The number of pipelined requests to use.', 1)
-  .option('-d, --duration    [SEC]', 'The number of seconds to run the autocannnon.', 10)
-  .action(function (server, test, command) {
-    handleAction(command, server, test);
+  .option('-d, --duration    [NUM]', 'The number of seconds to run the autocannnon.', 10)
+  .action(function (options) {
+    handleAction(options);
   });
-
 program.parse(process.argv);
 
 // No arguments
