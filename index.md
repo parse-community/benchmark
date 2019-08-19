@@ -13,6 +13,8 @@ layout: benchmark
     <p style="text-align:left" class="margin-top-10">
       Benchmarks include:
       <a href="#request-second">Request / Second</a>,
+      <a href="#ram">RAM</a>,
+      <a href="#cpu">CPU %</a>,
       <a href="#average-latency">Average Latency</a>,
       <a href="#maximum-latency">Maximum Latency</a>,
       <a href="#average-thoughput-mb">Average Throughput</a>, and 
@@ -25,6 +27,18 @@ layout: benchmark
         Request / Second
       </h3>
       <canvas id="req_per_second" width="1600" height="800"></canvas>
+    </article>
+    <article class="margin-top-40 padding-bottom-40 post">
+      <h3 class="h3 h3--blue margin-bottom-10" style="text-align:center">
+        CPU
+      </h3>
+      <canvas id="cpu" width="1600" height="800"></canvas>
+    </article>
+    <article class="margin-top-40 padding-bottom-40 post">
+      <h3 class="h3 h3--blue margin-bottom-10" style="text-align:center">
+        RAM
+      </h3>
+      <canvas id="ram" width="1600" height="800"></canvas>
     </article>
     <article class="margin-top-40 padding-bottom-40 post">
       <h3 class="h3 h3--blue margin-bottom-10" style="text-align:center">

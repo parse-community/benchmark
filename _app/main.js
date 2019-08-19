@@ -19,6 +19,8 @@ $(function() {
     histogram('max_latency', data);
     histogram('avg_throughput', data);
     histogram('max_throughput', data);
+    histogram('ram', data);
+    histogram('cpu', data);
   }); 
 });
 

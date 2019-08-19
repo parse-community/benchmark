@@ -13,8 +13,13 @@ node_modules
 
 # Optional npm cache directory
 .npm
+.nyc_output
 
 # OS X
 .DS_Store
 
 .jekyll-metadata
+.eslintcache
+coverage/
+docs/
+result.json
