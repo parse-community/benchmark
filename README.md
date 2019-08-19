@@ -48,8 +48,8 @@ $ git clone https://github.com/parse-community/benchmark
 $ cd benchmark
 $ npm install
 $ npm start # shows prompt
-$ npm start [-- <args>]  # runs many to many benchmark tests
-$ npm start test <server> <benchmark> [-- <args>]  # runs one to one benchmark test
+$ npm start -- run <args>  # runs many to many benchmark tests
+$ npm start -- test <server> <benchmark> <args>  # runs one to one benchmark test
 ```
 
 ### Arguments

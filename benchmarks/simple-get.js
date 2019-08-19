@@ -9,9 +9,8 @@ module.exports = {
     await object.save();
 
     return [{
-      path: '/classes/TestObject',
+      path: `/classes/TestObject/${object.id}`,
       method: 'GET',
-      body: JSON.stringify({ objectId: object.id }),
     }];
   }
 };

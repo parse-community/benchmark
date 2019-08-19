@@ -11,8 +11,10 @@ module.exports = {
       databaseURI: PARSE_CONFIG.DATABASE_URL,
       appId: PARSE_CONFIG.APP_ID,
       serverURL: PARSE_CONFIG.SERVER_URL,
+      publicServerURL: PARSE_CONFIG.SERVER_URL,
       masterKey: PARSE_CONFIG.MASTER_KEY,
       javascriptKey: PARSE_CONFIG.JAVASCRIPT_KEY,
+      restAPIKey: PARSE_CONFIG.REST_KEY,
       verbose: PARSE_CONFIG.VERBOSE,
     });
     app.use('/', parseServer);

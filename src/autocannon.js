@@ -8,8 +8,10 @@ module.exports.run = (opts = {}, requests = []) => new Promise((resolve, reject)
   opts.headers = {
     'cache-control': false,
     'content-type': 'application/json',
-    'x-parse-application-id': 'an-example-app-id',
-    'x-parse-rest-api-key': undefined,
+    'X-Parse-Application-Id': PARSE_CONFIG.APP_ID,
+    'X-Parse-Master-Key': PARSE_CONFIG.MASTER_KEY,
+    'X-Parse-REST-API-Key': PARSE_CONFIG.REST_KEY,
+    'X-Parse-Javascript-Key': PARSE_CONFIG.JAVASCRIPT_KEY,
   };
   opts.requests = requests;
 
