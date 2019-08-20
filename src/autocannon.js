@@ -1,20 +1,7 @@
 'use strict';
-
 const autocannon = require('autocannon');
-const PARSE_CONFIG = require('./config');
 
-module.exports.run = (opts = {}, requests = []) => new Promise((resolve, reject) => {
-  opts.url = opts.serverURL || PARSE_CONFIG.SERVER_URL;
-  opts.headers = {
-    'cache-control': false,
-    'content-type': 'application/json',
-    'X-Parse-Application-Id': PARSE_CONFIG.APP_ID,
-    'X-Parse-Master-Key': PARSE_CONFIG.MASTER_KEY,
-    'X-Parse-REST-API-Key': PARSE_CONFIG.REST_KEY,
-    'X-Parse-Javascript-Key': PARSE_CONFIG.JAVASCRIPT_KEY,
-  };
-  opts.requests = requests;
-
+module.exports.run = (opts = {}, track = false) => new Promise((resolve, reject) => {
   const instance = autocannon(opts, (err, result) => {
     if (err) {
       reject(err);
@@ -22,10 +9,9 @@ module.exports.run = (opts = {}, requests = []) => new Promise((resolve, reject)
       resolve(result);
     }
   });
-  if (process.env.DEBUG) {
+  if (process.env.DEBUG || track) {
     autocannon.track(instance);
   }
-
   // this is used to kill the instance on CTRL-C
   process.once('SIGINT', () => {
     instance.stop();

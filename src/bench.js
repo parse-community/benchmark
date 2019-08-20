@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 'use strict';
 
-const { TestUtils } = require('parse-server');
-const Table = require('cli-table');
 const fs = require('fs');
 const ora = require('ora');
 const path = require('path');
+const Table = require('cli-table');
+const pidusage = require('pidusage');
+const { TestUtils } = require('parse-server');
 const { fork } = require('child_process');
 const { run } = require('./autocannon');
-const pidusage = require('pidusage');
+const PARSE_CONFIG = require('./config');
 
 const doBench = (opts, serverName, benchmarks) => {
   const spinner = ora(`Started ${serverName}`).start();
@@ -31,7 +32,7 @@ const doBench = (opts, serverName, benchmarks) => {
             if (process.env.CLEAR) {
               await TestUtils.destroyAllDataPermanently();
             }
-            const result = await run(opts, requests);
+            const result = await run(buildOptions(opts, requests));
             const usage = await pidusage(serverProcess.pid);
 
             results.push({ [testName] : Object.assign({}, result, usage) });
@@ -104,6 +105,20 @@ function bytesToSize(bytes) {
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
   const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+}
+
+function buildOptions(opts, requests) {
+  opts.url = opts.serverURL || PARSE_CONFIG.SERVER_URL;
+  opts.headers = {
+    'cache-control': false,
+    'content-type': 'application/json',
+    'X-Parse-Application-Id': PARSE_CONFIG.APP_ID,
+    'X-Parse-Master-Key': PARSE_CONFIG.MASTER_KEY,
+    'X-Parse-REST-API-Key': PARSE_CONFIG.REST_KEY,
+    'X-Parse-Javascript-Key': PARSE_CONFIG.JAVASCRIPT_KEY,
+  };
+  opts.requests = requests;
+  return opts;
 }
 
 const data = [];
