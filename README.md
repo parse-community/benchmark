@@ -69,6 +69,7 @@ $ npm start
 -c, --connections The number of concurrent connections to use. default: 10.
 -p, --pipelining  The number of pipelined requests to use. default: 1.
 -d, --duration    The number of seconds to run the autocannnon. default: 10.
+-o, --output      Output to JSON file. default: result.json
 -h, --help        output usage information
 ```
 

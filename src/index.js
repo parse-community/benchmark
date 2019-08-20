@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 'use strict';
 
-const { run } = require('./autocannon');
+const { run } = require('./http-benchmark');
+const { start } = require('./bench');
 const program = require('commander');
 const inquirer = require('inquirer');
-const bench = require('./bench');
 const path = require('path');
 const fs = require('fs');
 
@@ -16,6 +16,7 @@ program
   .option('-c, --connections [NUM]', 'The number of concurrent connections to use.', 10)
   .option('-p, --pipelining  [NUM]', 'The number of pipelined requests to use.', 1)
   .option('-d, --duration    [NUM]', 'The number of seconds to run the autocannnon.', 10)
+  .option('-o, --output      [FILE]', 'Output to JSON file.', 'result.json')
   .action(function (server, test, options) {
     handleAction(options, server, test);
   });
@@ -25,6 +26,7 @@ program
   .option('-c, --connections [NUM]', 'The number of concurrent connections to use.', 10)
   .option('-p, --pipelining  [NUM]', 'The number of pipelined requests to use.', 1)
   .option('-d, --duration    [NUM]', 'The number of seconds to run the autocannnon.', 10)
+  .option('-o, --output      [FILE]', 'Output to JSON file.', 'result.json')
   .action(function (options) {
     handleAction(options);
   });
@@ -49,11 +51,12 @@ function handleAction(command, server, test) {
     connections: parseInt(command.connections),
     pipelining: parseInt(command.pipelining),
     duration: parseInt(command.duration),
+    output: command.output,
   };
   const apps = (server) ? [path.parse(server).name] : servers;
   const tests = (test) ? [path.parse(test).name] : benchmarks;
 
-  bench(opts, apps, tests).then(() => process.exit(0));
+  start(opts, apps, tests).then(() => process.exit(0));
 }
 
 function select() {
@@ -107,9 +110,9 @@ function showPrompt() {
   }]).then(async (opts) => {
     if (!opts.all) {
       const answers = await select();
-      return bench(opts, answers.apps, benchmarks);
+      return start(opts, answers.apps, benchmarks);
     } else {
-      return bench(opts, servers, benchmarks);
+      return start(opts, servers, benchmarks);
     }
   }).then(() => process.exit(0));
 }

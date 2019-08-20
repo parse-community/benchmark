@@ -54,3 +54,4 @@ docs/
 .jekyll-metadata
 _site
 options.json
+output.json

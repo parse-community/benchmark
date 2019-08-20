@@ -12,8 +12,9 @@ module.exports.run = (opts = {}, track = false) => new Promise((resolve, reject)
   if (process.env.DEBUG || track) {
     autocannon.track(instance);
   }
-  // this is used to kill the instance on CTRL-C
+  // This is used to kill the instance on CTRL-C
   process.once('SIGINT', () => {
+    /* istanbul ignore next */
     instance.stop();
   });
 });
