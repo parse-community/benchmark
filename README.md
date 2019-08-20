@@ -97,7 +97,7 @@ $ npm start -- run <args>
 
 This tool uses [autocannon][autocannon] under the hood. You can pass options directly to run against any server.
 
-The is a sample json file [options.sample.json][options.sample.json].
+The is a sample json file [options.sample.json](options.sample.json).
 
 Learn more about options [here][autocannon-options].
 
