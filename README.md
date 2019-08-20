@@ -66,19 +66,43 @@ $ npm start
 ### Usage
 
 ```
-$ npm start -- run <args>  # runs many to many benchmark tests
-$ npm start -- test <server> <benchmark> <args>  # runs one to one benchmark test
-```
-
-You can pass in the file name of the [server][server] and [benchmark][benchmark] to test against.
-
-#### Arguments
-
-```
 -c, --connections The number of concurrent connections to use. default: 10.
 -p, --pipelining  The number of pipelined requests to use. default: 1.
 -d, --duration    The number of seconds to run the autocannnon. default: 10.
 -h, --help        output usage information
+```
+
+#### One to One Benchmark
+
+You can pass in the file name of the [server][server] and [benchmark][benchmark] to test against.
+
+```
+$ npm start -- test <server> <benchmark> <args>  # runs one to one benchmark test
+```
+
+Example: [servers/mongo][server] [benchmarks/get][benchmark]
+
+```
+# 100 connections, 1 thread, run for 20 seconds
+$ npm start -- test mongo get -c 100 -p 1 -d 20
+```
+
+#### All Benchmarks
+
+```
+$ npm start -- run <args> 
+```
+
+#### Connect to any server
+
+This tool uses [autocannon][autocannon] under the hood. You can pass options directly to run against any server.
+
+The is a sample json file [options.sample.json][options.sample.json].
+
+Learn more about options [here][autocannon-options].
+
+```
+$ npm start -- options <path to json> <args> 
 ```
 
 ### Environment Variables
@@ -107,6 +131,8 @@ You can generate detailed server logs by setting `VERBOSE=1`.
 
 You can track the progress of this project [here][project].
 
+[autocannon]: https://github.com/mcollina/autocannon
+[autocannon-options]: https://github.com/mcollina/autocannon#usage
 [benchmark]: https://github.com/parse-community/benchmark/tree/master/benchmarks
 [project]: https://github.com/parse-community/benchmark/projects
 [server]: https://github.com/parse-community/benchmark/tree/master/servers

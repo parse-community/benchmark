@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
+const { run } = require('./autocannon');
 const program = require('commander');
 const inquirer = require('inquirer');
 const bench = require('./bench');
@@ -27,6 +28,15 @@ program
   .action(function (options) {
     handleAction(options);
   });
+
+program
+  .command('options <path to json>')
+  .action(async (path) => {
+    console.log(path);
+    const options = fs.readFileSync(path, 'utf8');
+    await run(JSON.parse(options), true);
+  });
+
 program.parse(process.argv);
 
 // No arguments

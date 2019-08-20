@@ -1,0 +1,19 @@
+{
+  "url": "http://localhost:1337",
+  "headers": {
+    "cache-control": false,
+    "content-type": "application/json",
+    "X-Parse-Application-Id": "",
+    "X-Parse-Master-Key": "",
+    "X-Parse-REST-API-Key": "",
+    "X-Parse-Javascript-Key": ""
+  },
+  "requests": [{
+    "path": "/classes/TestObject",
+    "method": "POST",
+    "body": "{\"testValue\":1}"
+  }],
+  "connections": 100,
+  "pipelining": 1,
+  "duration": 20
+}
