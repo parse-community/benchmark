@@ -81,7 +81,9 @@ describe('bench', () => {
   });
 
   it('should clear database', async (done) => {
-    const serverProcess = fork(path.join(__dirname, '..', 'servers', 'mongo'));
+    const serverPath = path.join(__dirname, '..', 'servers', 'mongo');
+    const serverProcess = fork(serverPath);
+
     serverProcess.on('message', async (m) => {
       if (m.start) {
         const object = new Parse.Object('TestObject');
@@ -96,7 +98,8 @@ describe('bench', () => {
       }
     });
     serverProcess.on('close', () => {
-      const newProcess = fork(path.join(__dirname, '..', 'servers', 'mongo'));
+      const newProcess = fork(serverPath);
+
       newProcess.on('message', async (m) => {
         if (m.start) {
           const query = new Parse.Query('TestObject');
