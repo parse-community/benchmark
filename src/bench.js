@@ -1,19 +1,18 @@
 #!/usr/bin/env node
 'use strict';
 
-const fs = require('fs');
 const ora = require('ora');
 const path = require('path');
-const Table = require('cli-table');
 const pidusage = require('pidusage');
+const { saveToFile, cliTable, buildOptions } = require('./utils');
 const { TestUtils } = require('parse-server');
 const { fork } = require('child_process');
-const { run } = require('./autocannon');
-const PARSE_CONFIG = require('./config');
+const { run } = require('./http-benchmark');
 
-const doBench = (opts, serverName, benchmarks) => {
+const runTest = (opts, serverName, benchmarks) => {
   const spinner = ora(`Started ${serverName}`).start();
-  const serverProcess = fork(path.join(__dirname, '..', 'servers', serverName), [], { stdio: 'pipe' });
+  const serverProcess = fork(path.join(__dirname, '..', 'servers', serverName));
+
   return new Promise((resolve) => {
     const results = [];
 
@@ -42,10 +41,13 @@ const doBench = (opts, serverName, benchmarks) => {
           } catch (error) {
             spinner.text = `Failed saved for ${testName}`;
             spinner.fail();
-            console.log(error);
+            console.error(error);
           }
         }
         serverProcess.kill('SIGINT');
+      } else {
+        /* istanbul ignore next */
+        console.error("Could not start server process. Call process.send('message', { start: true })");
       }
     });
     serverProcess.on('close', async () => {
@@ -54,88 +56,20 @@ const doBench = (opts, serverName, benchmarks) => {
   });
 };
 
-const cliTable = (data) => {
-  const table = new Table({
-    head: ['', 'Requests/s', 'Latency', 'Throughput/Mb', 'Ram', 'Cpu %'],
-  });
-  const rows = data.map((result) => {
-    const key = Object.keys(result)[0];
-    return [
-      key,
-      (result[key].requests.average).toFixed(1),
-      (result[key].latency.average).toFixed(2),
-      (result[key].throughput.average / 1024 / 1024).toFixed(2),
-      bytesToSize(result[key].memory),
-      result[key].cpu,
-    ];
-  });
-  table.push(...rows);
-  console.log(table.toString());
-};
-
-function saveToFile(data) {
-  const result = {
-    req_per_second: processData(data, 'requests', 'average'),
-    max_latency: processData(data, 'latency', 'max'),
-    avg_latency: processData(data, 'latency', 'average'),
-    max_throughput: processData(data, 'throughput', 'max'),
-    avg_throughput: processData(data, 'throughput', 'average'),
-    ram: processData(data, 'memory'),
-    cpu: processData(data, 'cpu'),
-    sha1: process.env.SHA1 || '',
-    created_at: new Date(),
-  };
-  fs.writeFileSync('result.json', JSON.stringify(result));
-}
-
-function processData(data, field, value) {
-  const output = {};
-  data.forEach((result) => {
-    const key = Object.keys(result)[0];
-    if (value) {
-      output[key] = result[key][field][value];
-    } else {
-      output[key] = result[key][field];
-    }
-  });
-  return output;
-}
-
-function bytesToSize(bytes) {
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-  return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-}
-
-function buildOptions(opts, requests) {
-  opts.url = opts.serverURL || PARSE_CONFIG.SERVER_URL;
-  opts.headers = {
-    'cache-control': false,
-    'content-type': 'application/json',
-    'X-Parse-Application-Id': PARSE_CONFIG.APP_ID,
-    'X-Parse-Master-Key': PARSE_CONFIG.MASTER_KEY,
-    'X-Parse-REST-API-Key': PARSE_CONFIG.REST_KEY,
-    'X-Parse-Javascript-Key': PARSE_CONFIG.JAVASCRIPT_KEY,
-  };
-  opts.requests = requests;
-  return opts;
-}
-
-const data = [];
-const start = async (opts, servers, benchmarks, index = 0) => {
-  if (servers.length === index) {
-    cliTable(data);
-    saveToFile(data);
-    return;
-  }
+const start = async (opts, servers, benchmarks, data = [], index = 0) => {
   try {
-    const results = await doBench(opts, servers[index], benchmarks);
+    if (servers.length === index) {
+      cliTable(data);
+      saveToFile(opts.output, data);
+      return;
+    }
+    const results = await runTest(opts, servers[index], benchmarks);
     data.push(...results);
     index += 1;
-    return start(opts, servers, benchmarks, index);
+    return start(opts, servers, benchmarks, data, index);
   } catch (error) {
-    return console.log(error);
+    return console.error(error);
   }
 };
 
-module.exports = start;
+module.exports = { start, runTest };
