@@ -7,7 +7,7 @@ const { fork } = require('child_process');
 const httpBenchmark = require('../src/http-benchmark');
 const bench = require('../src/bench');
 const utils = require('../src/utils');
-const Parse = require('../src/Parse');
+const Parse = require('../src/parse');
 const spinner = require('ora');
 const path = require('path');
 
