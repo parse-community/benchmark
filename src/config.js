@@ -11,5 +11,6 @@ module.exports = exports = {
   SERVER_URL: process.env.PARSE_SERVER_URL || `http://localhost:${PORT}`,
   DATABASE_URL: process.env.DATABASE_URL || 'postgres://localhost:5432/parse_benchmark',
   MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/parse_benchmark',
+  COLLECTION_PREFIX: process.env.COLLECTION_PREFIX || 'test_',
   VERBOSE: process.env.VERBOSE || false,
 };

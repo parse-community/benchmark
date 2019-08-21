@@ -3,11 +3,13 @@ jest.mock('pidusage');
 jest.mock('../src/http-benchmark');
 jest.mock('../src/utils');
 
-const { TestUtils } = require('parse-server');
+const { fork } = require('child_process');
 const httpBenchmark = require('../src/http-benchmark');
 const bench = require('../src/bench');
 const utils = require('../src/utils');
+const Parse = require('../src/parse');
 const spinner = require('ora');
+const path = require('path');
 
 const data = [{
   'mongo get': {
@@ -68,27 +70,48 @@ describe('bench', () => {
     });
   });
 
-  it('runTest should clear database CLEAR=1', (done) => {
-    jest.spyOn(TestUtils, 'destroyAllDataPermanently').mockImplementation(() => {});
-    const tempClear = process.env.CLEAR;
-    const tempTest = process.env.TESTING;
-    process.env.CLEAR = 1;
-    process.env.TESTING = 1;
-    bench.runTest({}, 'mongo', ['get']).then(() => {
-      expect(TestUtils.destroyAllDataPermanently).toHaveBeenCalled();
-      done();
-    });
-    process.env.CLEAR = tempClear;
-    process.env.TESTING = tempTest;
-  });
-
-  it('runTest should print error', async (done) => {
+  it('runTest should print error', (done) => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     jest.spyOn(httpBenchmark, 'run').mockImplementation(() => { throw 'error here'; });
     const opts = { output: 'test.json' };
     bench.runTest(opts, 'mongo', ['get']).then(() => {
       expect(console.error).toHaveBeenCalledWith('error here');
       done();
+    });
+  });
+
+  it('should clear database', async (done) => {
+    const serverPath = path.join(__dirname, '..', 'servers', 'mongo');
+    const serverProcess = fork(serverPath);
+
+    serverProcess.on('message', async (m) => {
+      if (m.start) {
+        const object = new Parse.Object('TestObject');
+        object.set('hello', 'world');
+        await object.save();
+
+        const query = new Parse.Query('TestObject');
+        const result = await query.get(object.id);
+        expect(result.get('hello', 'world'));
+
+        serverProcess.kill('SIGINT');
+      }
+    });
+    serverProcess.on('close', () => {
+      const newProcess = fork(serverPath);
+
+      newProcess.on('message', async (m) => {
+        if (m.start) {
+          const query = new Parse.Query('TestObject');
+          const results = await query.find();
+          expect(results.length).toBe(0);
+
+          newProcess.kill('SIGINT');
+        }
+      });
+      newProcess.on('close', () => {
+        done();
+      });
     });
   });
 });

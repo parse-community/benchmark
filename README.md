@@ -118,6 +118,7 @@ PARSE_PORT: 1337,
 SERVER_URL: 'http://localhost:1337`,
 DATABASE_URL: 'postgres://localhost:5432/parse_benchmark',
 MONGODB_URI: 'mongodb://localhost:27017/parse_benchmark',
+COLLECTION_PREFIX: 'test_',
 VERBOSE: false,
 CLEAR: false, # If set clears database before each test
 ```

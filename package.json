@@ -21,10 +21,10 @@
     "README.md"
   ],
   "scripts": {
-    "bot": "probot run ./bot.js",
+    "bot": "probot run ./src/bot.js",
     "bot:dev": "APP_ID=38757 LOG_LEVEL=debug WEBHOOK_PROXY_URL=https://smee.io/TTTwn6zi8W8li19 WEBHOOK_SECRET=development nodemon",
     "start": "node ./src/index.js",
-    "test": "jest",
+    "test": "CLEAR=1 jest",
     "lint": "rm -rf docs && eslint --cache ./",
     "lint:fix": "eslint --fix ./",
     "benchmarks": "./resources/run_benchmarks.sh"

@@ -5,7 +5,6 @@ const ora = require('ora');
 const path = require('path');
 const pidusage = require('pidusage');
 const { saveToFile, cliTable, buildOptions } = require('./utils');
-const { TestUtils } = require('parse-server');
 const { fork } = require('child_process');
 const { run } = require('./http-benchmark');
 
@@ -28,9 +27,6 @@ const runTest = (opts, serverName, benchmarks) => {
             spinner.color = 'yellow';
             spinner.text = `Working ${testName}`;
 
-            if (process.env.CLEAR) {
-              await TestUtils.destroyAllDataPermanently();
-            }
             const result = await run(buildOptions(opts, requests));
             const usage = await pidusage(serverProcess.pid);
 
@@ -50,7 +46,7 @@ const runTest = (opts, serverName, benchmarks) => {
         console.error("Could not start server process. Call process.send('message', { start: true })");
       }
     });
-    serverProcess.on('close', async () => {
+    serverProcess.on('close', () => {
       resolve(results);
     });
   });
