@@ -11,7 +11,7 @@ const data = {
   memory: 120000000,
 };
 
-describe('autocannon', () => {
+describe('http-benchmark', () => {
   beforeEach(() => {
     jest.restoreAllMocks();
 
