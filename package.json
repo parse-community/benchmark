@@ -41,7 +41,7 @@
     "probot": "9.3.1"
   },
   "devDependencies": {
-    "codecov": "3.5.0",
+    "codecov": "3.7.1",
     "eslint": "6.1.0",
     "jest": "24.9.0",
     "nodemon": "1.19.1",
