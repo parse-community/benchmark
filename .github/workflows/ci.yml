@@ -50,11 +50,13 @@ jobs:
           key: ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
-      - run: |
+      - name: Setup Mongo and Postgres
+        run: |
           mongodb-runner start
           bash scripts/before_script_postgres_conf.sh
           bash scripts/before_script_postgres.sh
-      - run: |
+      - name: Run benchmarks
+        run: |
           npm run lint
           npm test -- --maxWorkers=4
           npm start -- run -c 1 -p 1 -d 2
