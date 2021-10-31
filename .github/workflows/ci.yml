@@ -7,6 +7,7 @@ on:
       - '**'
 env:
   NODE_VERSION: 14.18.1
+  POSTGRES_PASSWORD: postgres
 jobs:
   benchmark:
     strategy:
@@ -22,8 +23,6 @@ jobs:
     services:
       postgres:
         image: ${{ matrix.POSTGRES_IMAGE }}
-        env:
-          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         options: >-
@@ -35,6 +34,7 @@ jobs:
       MONGODB_VERSION: 5.0.3
       MONGODB_TOPOLOGY: replicaset
       MONGODB_STORAGE_ENGINE: wiredTiger
+      DATABASE_URL: postgres://postgres:${{ POSTGRES_PASSWORD }}@localhost:5432/parse_benchmark
       NODE_VERSION: ${{ matrix.NODE_VERSION }}
     steps:
       - uses: actions/checkout@v2
