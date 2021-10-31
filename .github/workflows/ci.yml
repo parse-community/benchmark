@@ -1,8 +1,7 @@
 name: ci
 on:
   push:
-    branches: 
-      - master
+    branches: [master]
   pull_request:
     branches:
       - '**'
@@ -10,6 +9,7 @@ env:
   NODE_VERSION: 14.18.1
 jobs:
   benchmark:
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         include:
@@ -19,7 +19,6 @@ jobs:
       fail-fast: false
     name: ${{ matrix.name }}
     timeout-minutes: 15
-    runs-on: ubuntu-18.04
     services:
       postgres:
         image: ${{ matrix.POSTGRES_IMAGE }}
