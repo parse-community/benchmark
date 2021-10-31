@@ -1,40 +1,28 @@
 name: ci
+
 on:
   push:
-    branches: [master]
+    branches: [ master ]
   pull_request:
-    branches:
-      - '**'
-env:
-  NODE_VERSION: 14.18.1
+    branches: [ master ]
+
 jobs:
-  benchmark:
-    name: Benchmark
+  build:
+
     runs-on: ubuntu-18.04
-    timeout-minutes: 15
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache Node.js modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
-      - name: Setup Mongo and Postgres
-        run: |
-          mongodb-runner start
-          bash scripts/before_script_postgres_conf.sh
-          bash scripts/before_script_postgres.sh
-      - name: Run benchmarks
-        run: |
-          npm run lint
-          npm test -- --maxWorkers=4
-          npm start -- run -c 1 -p 1 -d 2
-          if [ ! -e "result.json" ]; then exit 1; fi
-      - name: Upload coverage to Codecov
-        run: bash <(curl -s https://codecov.io/bash)
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
