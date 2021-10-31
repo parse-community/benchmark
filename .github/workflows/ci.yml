@@ -51,6 +51,8 @@ jobs:
             ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
       - name: Setup Mongo and Postgres
         run: |
+          npm install
+          mongodb-runner start
           bash scripts/before_script_postgres_conf.sh
           bash scripts/before_script_postgres.sh
       - name: Run benchmarks
