@@ -13,4 +13,6 @@ module.exports = exports = {
   MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/parse_benchmark',
   COLLECTION_PREFIX: process.env.COLLECTION_PREFIX || 'test_',
   VERBOSE: process.env.VERBOSE || false,
+  PARSE_SERVER_DIRECT_ACCESS: process.env.PARSE_SERVER_DIRECT_ACCESS || true,
+  PARSE_SERVER_ENFORCE_PRIVATE_USERS: process.env.PARSE_SERVER_ENFORCE_PRIVATE_USERS || false,
 };
