@@ -15,7 +15,6 @@ jobs:
         include:
           - name: PostgreSQL 14, PostGIS 3.1
             POSTGRES_IMAGE: postgis/postgis:14-3.1
-            NODE_VERSION: 14.18.1
       fail-fast: false
     name: ${{ matrix.name }}
     timeout-minutes: 15
@@ -36,6 +35,7 @@ jobs:
       MONGODB_STORAGE_ENGINE: wiredTiger
       DATABASE_URL: postgres://postgres:${{ POSTGRES_PASSWORD }}@localhost:5432/parse_benchmark
       NODE_VERSION: ${{ matrix.NODE_VERSION }}
+      POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.NODE_VERSION }}
