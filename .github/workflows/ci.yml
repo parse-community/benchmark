@@ -33,7 +33,7 @@ jobs:
       MONGODB_VERSION: 5.0.3
       MONGODB_TOPOLOGY: replicaset
       MONGODB_STORAGE_ENGINE: wiredTiger
-      DATABASE_URL: postgres://postgres:${{ POSTGRES_PASSWORD }}@localhost:5432/parse_benchmark
+      DATABASE_URL: postgres://postgres:${{ env.POSTGRES_PASSWORD }}@localhost:5432/parse_benchmark
       NODE_VERSION: ${{ matrix.NODE_VERSION }}
       POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
     steps:
