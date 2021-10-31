@@ -7,7 +7,6 @@ on:
       - '**'
 env:
   NODE_VERSION: 14.18.1
-  POSTGRES_PASSWORD: postgres
 jobs:
   benchmark:
     strategy:
