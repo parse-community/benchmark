@@ -56,7 +56,7 @@ jobs:
           npm install
           mongodb-runner start
           bash scripts/before_script_postgres_conf.sh
-          bash scripts/before_script_postgres.sh
+        #bash scripts/before_script_postgres.sh
       - name: Run benchmarks
         run: |
           npm run lint
