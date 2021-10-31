@@ -49,10 +49,10 @@ jobs:
           key: ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
-      - name: Setup Mongo and Postgres
+      - name: Install dependencies
         run: |
-          npm install -g mongodb-runner jwks-rsa
-          npm install
+          npm install -g mongodb-runner
+          npm install --only=dev
           mongodb-runner start
           bash scripts/before_script_postgres_conf.sh
           bash scripts/before_script_postgres.sh
