@@ -1,16 +1,12 @@
 <p align="center">
   <img alt="Parse Platform" src="https://raw.githubusercontent.com/parse-community/benchmark/master/.github/logo-large.png" width="200">
-</p>
 
 <h2 align="center">Benchmark for Parse Server</h2>
-
-<p align="center">
     A HTTP/1.1 benchmarking tool for Parse Server backends.
 </p>
 <br>
 
 ---
-
 [![Build Status](https://github.com/parse-community/benchmark/workflows/ci/badge.svg?branch=master)](https://github.com/parse-community/benchmark/actions?query=workflow%3Aci+branch%3Amaster)
 [![Coverage](https://img.shields.io/codecov/c/github/parse-community/benchmark/master.svg)](https://codecov.io/github/parse-community/benchmark?branch=master)
 
