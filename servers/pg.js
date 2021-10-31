@@ -14,6 +14,8 @@ const parseServer = ParseServer.start({
   collectionPrefix: PARSE_CONFIG.COLLECTION_PREFIX,
   verbose: PARSE_CONFIG.VERBOSE,
   mountPath: PARSE_CONFIG.MOUNT_PATH,
+  directAccess: PARSE_CONFIG.PARSE_SERVER_DIRECT_ACCESS,
+  enforcePrivateUsers: PARSE_CONFIG.PARSE_SERVER_ENFORCE_PRIVATE_USERS,
   serverStartComplete: () => process.send({ start: true }),
   serverCloseComplete: async () => await cleanUp(),
 });
