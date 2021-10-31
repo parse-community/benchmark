@@ -32,9 +32,9 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     env:
-      MONGODB_VERSION=5.0.3
-      MONGODB_TOPOLOGY=replicaset
-      MONGODB_STORAGE_ENGINE=wiredTiger
+      MONGODB_VERSION: 5.0.3
+      MONGODB_TOPOLOGY: replicaset
+      MONGODB_STORAGE_ENGINE: wiredTiger
       NODE_VERSION: ${{ matrix.NODE_VERSION }}
     steps:
       - uses: actions/checkout@v2
