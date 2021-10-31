@@ -1,28 +1,64 @@
 name: ci
-
 on:
   push:
-    branches: [ master ]
+    branches: [master, actions]
   pull_request:
-    branches: [ master ]
-
+    branches:
+      - '**'
+env:
+  NODE_VERSION: 14.18.1
 jobs:
-  build:
-
-    runs-on: ubuntu-18.04
-
+  benchmark:
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+        include:
+          - name: PostgreSQL 14, PostGIS 3.1
+            POSTGRES_IMAGE: postgis/postgis:14-3.1
+            NODE_VERSION: 14.18.1
+      fail-fast: false
+    name: ${{ matrix.name }}
+    timeout-minutes: 15
+    runs-on: ubuntu-18.04
+    services:
+      postgres:
+        image: ${{ matrix.POSTGRES_IMAGE }}
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      MONGODB_VERSION: 5.0.3
+      MONGODB_TOPOLOGY: replicaset
+      MONGODB_STORAGE_ENGINE: wiredTiger
+      NODE_VERSION: ${{ matrix.NODE_VERSION }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.NODE_VERSION }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.NODE_VERSION }}
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
+      - name: Setup Mongo and Postgres
+        run: |
+          mongodb-runner start
+          bash scripts/before_script_postgres_conf.sh
+          bash scripts/before_script_postgres.sh
+      - name: Run benchmarks
+        run: |
+          npm run lint
+          npm test -- --maxWorkers=4
+          npm start -- run -c 1 -p 1 -d 2
+          if [ ! -e "result.json" ]; then exit 1; fi
+      - name: Upload coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
