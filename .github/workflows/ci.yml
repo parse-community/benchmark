@@ -22,6 +22,8 @@ jobs:
     services:
       postgres:
         image: ${{ matrix.POSTGRES_IMAGE }}
+        env:
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         options: >-
@@ -35,7 +37,6 @@ jobs:
       MONGODB_STORAGE_ENGINE: wiredTiger
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/parse_benchmark
       NODE_VERSION: ${{ matrix.NODE_VERSION }}
-      POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.NODE_VERSION }}
