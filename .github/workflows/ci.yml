@@ -12,23 +12,6 @@ jobs:
     name: Benchmark
     runs-on: ubuntu-18.04
     timeout-minutes: 15
-    services:
-      postgres:
-        image: postgis/postgis:14-3.1
-        env:
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    env:
-      MONGODB_VERSION: 5.0.3
-      MONGODB_TOPOLOGY: replicaset
-      MONGODB_STORAGE_ENGINE: wiredTiger
-      NODE_VERSION: ${{ env.NODE_VERSION }}
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ env.NODE_VERSION }}
