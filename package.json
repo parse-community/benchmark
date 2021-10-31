@@ -36,12 +36,12 @@
     "commander": "3.0.0",
     "inquirer": "6.5.1",
     "ora": "3.4.0",
-    "parse-server": "github:parse-community/parse-server#master",
+    "parse-server": "github:parse-community/parse-server#alpha",
     "pidusage": "2.0.17",
     "probot": "9.3.1"
   },
   "devDependencies": {
-    "codecov": "3.7.1",
+    "codecov": "3.8.3",
     "eslint": "6.1.0",
     "jest": "24.9.0",
     "nodemon": "1.19.1",
@@ -64,6 +64,6 @@
     ]
   },
   "engines": {
-    "node": "8"
+    "node": ">=12.20.0"
   }
 }
