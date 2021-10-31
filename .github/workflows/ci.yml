@@ -9,19 +9,12 @@ env:
   NODE_VERSION: 14.18.1
 jobs:
   benchmark:
+    name: Benchmark
     runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        include:
-          - name: PostgreSQL 14, PostGIS 3.1
-            POSTGRES_IMAGE: postgis/postgis:14-3.1
-            NODE_VERSION: 14.18.1
-      fail-fast: false
-    name: ${{ matrix.name }}
     timeout-minutes: 15
     services:
       postgres:
-        image: ${{ matrix.POSTGRES_IMAGE }}
+        image: postgis/postgis:14-3.1
         env:
           POSTGRES_PASSWORD: postgres
         ports:
@@ -35,18 +28,18 @@ jobs:
       MONGODB_VERSION: 5.0.3
       MONGODB_TOPOLOGY: replicaset
       MONGODB_STORAGE_ENGINE: wiredTiger
-      NODE_VERSION: ${{ matrix.NODE_VERSION }}
+      NODE_VERSION: ${{ env.NODE_VERSION }}
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.NODE_VERSION }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.NODE_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
       - name: Cache Node.js modules
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-
       - name: Setup Mongo and Postgres
