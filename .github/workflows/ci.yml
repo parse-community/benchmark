@@ -52,7 +52,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install -g mongodb-runner
-          npm install --only=dev
+          npm install
           mongodb-runner start
           bash scripts/before_script_postgres_conf.sh
           bash scripts/before_script_postgres.sh
