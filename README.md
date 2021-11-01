@@ -9,6 +9,7 @@
 ---
 [![Build Status](https://github.com/parse-community/benchmark/workflows/ci/badge.svg?branch=master)](https://github.com/parse-community/benchmark/actions?query=workflow%3Aci+branch%3Amaster)
 [![Coverage](https://img.shields.io/codecov/c/github/parse-community/benchmark/master.svg)](https://codecov.io/github/parse-community/benchmark?branch=master)
+[![License](https://img.shields.io/badge/license-BSD-lightgrey.svg)](LICENSE.md)
 
 [![Backers on Open Collective](https://opencollective.com/parse-server/backers/badge.svg)](https://opencollective.com/parse-server)
 [![Sponsors on Open Collective](https://opencollective.com/parse-server/sponsors/badge.svg)](https://opencollective.com/parse-server)
