@@ -32,8 +32,8 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "autocannon": "7.10.0",
-    "cli-table": "0.3.1",
-    "commander": "3.0.0",
+    "cli-table": "0.3.11",
+    "commander": "9.4.1",
     "inquirer": "6.5.1",
     "ora": "3.4.0",
     "parse-server": "github:parse-community/parse-server#alpha",
