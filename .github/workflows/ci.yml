@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: PostgreSQL 14, PostGIS 3.1
-            POSTGRES_IMAGE: postgis/postgis:14-3.1
+          - name: PostgreSQL 15, PostGIS 3.3
+            POSTGRES_IMAGE: postgis/postgis:15-3.3
       fail-fast: false
     name: ${{ matrix.name }}
     timeout-minutes: 15
@@ -31,19 +31,19 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     env:
-      MONGODB_VERSION: 5.0.3
+      MONGODB_VERSION: 5.3.2
       MONGODB_TOPOLOGY: replicaset
       MONGODB_STORAGE_ENGINE: wiredTiger
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/parse_benchmark
       NODE_VERSION: ${{ matrix.NODE_VERSION }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.NODE_VERSION }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.NODE_VERSION }}
       - name: Cache Node.js modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ matrix.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
