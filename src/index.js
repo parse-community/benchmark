@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 'use strict';
 
+import inquirer from 'inquirer';
 const { run } = require('./http-benchmark');
 const { start } = require('./bench');
 const program = require('commander');
-const inquirer = require('inquirer');
 const path = require('path');
 const fs = require('fs');
 
