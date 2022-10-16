@@ -35,9 +35,9 @@
     "cli-table": "0.3.11",
     "commander": "9.4.1",
     "inquirer": "8.2.3",
-    "ora": "6.1.2",
+    "ora": "5.4.1",
     "parse-server": "github:parse-community/parse-server#alpha",
-    "pidusage": "2.0.17",
+    "pidusage": "3.0.1",
     "probot": "9.3.1"
   },
   "devDependencies": {
