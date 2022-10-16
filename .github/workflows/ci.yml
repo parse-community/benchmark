@@ -6,7 +6,7 @@ on:
     branches:
       - '**'
 env:
-  NODE_VERSION: 14.18.1
+  NODE_VERSION: 18.1.0
 jobs:
   benchmark:
     strategy:
