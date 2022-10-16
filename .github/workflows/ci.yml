@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: PostgreSQL 15, PostGIS 3.3
+          - name: MongoDB vs PostgreSQL
             POSTGRES_IMAGE: postgis/postgis:15-3.3
       fail-fast: false
     name: ${{ matrix.name }}
@@ -31,7 +31,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     env:
-      MONGODB_VERSION: 5.3.2
+      MONGODB_VERSION: 6.0.2
       MONGODB_TOPOLOGY: replicaset
       MONGODB_STORAGE_ENGINE: wiredTiger
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/parse_benchmark
