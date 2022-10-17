@@ -60,7 +60,7 @@ jobs:
         run: |
           npm run lint
           npm test -- --maxWorkers=4
-          npm start -- run -c 100 -p 1 -d 20
+          npm start -- run -c 1 -p 1 -d 2
           if [ ! -e "result.json" ]; then exit 1; fi
       - name: Upload coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash)
