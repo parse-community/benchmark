@@ -31,22 +31,21 @@
   },
   "license": "BSD-3-Clause",
   "dependencies": {
-    "autocannon": "4.0.0",
-    "cli-table": "0.3.1",
-    "commander": "3.0.0",
-    "inquirer": "6.5.1",
-    "ora": "3.4.0",
-    "parse-server": "github:parse-community/parse-server#master",
-    "pidusage": "2.0.17",
-    "probot": "9.3.1"
+    "autocannon": "7.10.0",
+    "cli-table": "0.3.11",
+    "commander": "9.4.1",
+    "inquirer": "8.2.3",
+    "ora": "5.4.1",
+    "parse-server": "github:parse-community/parse-server#alpha",
+    "pidusage": "3.0.1",
+    "probot": "12.2.8"
   },
   "devDependencies": {
-    "codecov": "3.7.1",
-    "eslint": "6.1.0",
+    "eslint": "6.8.0",
     "jest": "24.9.0",
-    "nodemon": "1.19.1",
-    "nyc": "14.1.1",
-    "smee-client": "1.1.0"
+    "nodemon": "2.0.20",
+    "nyc": "15.1.0",
+    "smee-client": "1.2.3"
   },
   "jest": {
     "collectCoverage": true
@@ -64,6 +63,6 @@
     ]
   },
   "engines": {
-    "node": "8"
+    "node": ">=14.15.0"
   }
 }
