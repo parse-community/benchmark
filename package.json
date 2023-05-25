@@ -29,7 +29,7 @@
     "lint:fix": "eslint --fix ./",
     "benchmarks": "./resources/run_benchmarks.sh"
   },
-  "license": "BSD-3-Clause",
+  "license": "Apache-2.0",
   "dependencies": {
     "autocannon": "4.0.0",
     "cli-table": "0.3.1",
